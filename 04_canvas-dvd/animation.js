@@ -1,8 +1,8 @@
 // General
-var animateButton = document.getElementById("animate");
+var circleButton = document.getElementById("circle");
 var stopButton = document.getElementById("stop");
 var canvas = document.getElementById("slate");
-var collisionButton = document.getElementById("collision");
+var dvdButton = document.getElementById("dvd");
 var ctx = canvas.getContext("2d");
 var id = -1;
 
@@ -17,9 +17,9 @@ stopButton.addEventListener('click', function (e) {
 var logo = new Image();
 logo.src = "logo_dvd.jpg";
 
-collisionButton.addEventListener('click', function (e) {
+dvdButton.addEventListener('click', function (e) {
 	if (id === -1) {
-		id = window.requestAnimationFrame(drawCollision);
+		id = window.requestAnimationFrame(drawDVD);
 	}
 });
 
@@ -30,7 +30,8 @@ var rectWidth = 60;
 var rectHeight = 40;
 var curX = Math.floor(Math.random() * (canvas.width - rectWidth));
 var curY = Math.floor(Math.random() * (canvas.height - rectHeight));
-var drawCollision = function () {
+
+var drawDVD = function () {
 	console.log(logo.width);
 	ctx.clearRect(0, 0, canvas.width, canvas.width);
 	ctx.beginPath();
@@ -43,14 +44,14 @@ var drawCollision = function () {
 	if (curY <= 0 || curY >= canvas.height - rectHeight) {
 		yVel = -yVel;
 	}
-	id = window.requestAnimationFrame(drawCollision);
+	id = window.requestAnimationFrame(drawDVD);
 }
 
 // Circle
 var currentCircleSize = 1;
-var speed = 10;
-var increment = speed;
-animateButton.addEventListener('click', function (e) {
+var circleSpeed = 5;
+var increment = circleSpeed;
+circleButton.addEventListener('click', function (e) {
 	if (id === -1) {
 		id = window.requestAnimationFrame(draw);
 	}
@@ -63,10 +64,10 @@ var draw = function (e) {
 		ctx.arc(canvas.height / 2, canvas.width / 2, currentCircleSize, 0, 2 * Math.PI, false);
 	}
 	if (currentCircleSize >= canvas.width/2) {
-		increment = -speed;
+		increment = -circleSpeed;
 	}
 	if (currentCircleSize <= 0) {
-		increment = speed;
+		increment = circleSpeed;
 	}
 	ctx.stroke();
 	ctx.fill();
