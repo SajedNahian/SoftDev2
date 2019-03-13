@@ -3,27 +3,30 @@ var prevPoint = null;
 var domRect = svgContainer.getBoundingClientRect();
 var clearButton = document.getElementById('clear');
 var drawCircle = true;
+var randomCircle = false;
 
 svgContainer.addEventListener('click', (e) => {
-	var x = event.clientX - domRect.left;
-	var y = event.clientY - domRect.top;
-	console.log('123')
-	if (prevPoint) {
-		//svgContainer.appendChild(getLineCode(prevPoint.x, prevPoint.y, x, y));
-	
+	if (drawCircle) {
+		var x = randomCircle ? Math.floor(Math.random() * (501)) : event.clientX - domRect.left;
+		var y = randomCircle ? Math.floor(Math.random() * (501)) : event.clientY - domRect.top;
+		if (randomCircle) randomCircle = false;
+		svgContainer.appendChild(getCircleCode(x, y));
+		prevPoint = {x, y}
+	} else {
+		drawCircle = true;
 	}
-	drawCircle ? svgContainer.appendChild(getCircleCode(x, y)) : drawCircle = true;
-	
-	prevPoint = {x, y}
-	console.log(x,y);
 });
 
 var getCircleCode = (x, y) => {
 	var circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
 	circle.addEventListener('click', (e) => {
-		var color = circle.getAttribute('fill') === 'blue' ? 'red' : 'blue';
-		circle.setAttribute('fill', color);
-		drawCircle = false;	
+		if (circle.getAttribute('fill') === 'red') {
+			circle.setAttribute('fill', 'blue');
+			drawCircle = false;
+		} else {
+			circle.parentNode.removeChild(circle);
+			randomCircle = true;
+		}
 	})
 	circle.setAttribute('cx', x);	
 	circle.setAttribute('cy', y);
