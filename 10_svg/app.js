@@ -2,19 +2,14 @@ var svgContainer = document.getElementById('svgContainer');
 var prevPoint = null;
 var domRect = svgContainer.getBoundingClientRect();
 var clearButton = document.getElementById('clear');
-var drawCircle = true;
 var randomCircle = false;
 
 svgContainer.addEventListener('click', (e) => {
-	if (drawCircle) {
-		var x = randomCircle ? Math.floor(Math.random() * (501)) : event.clientX - domRect.left;
-		var y = randomCircle ? Math.floor(Math.random() * (501)) : event.clientY - domRect.top;
-		if (randomCircle) randomCircle = false;
-		svgContainer.appendChild(getCircleCode(x, y));
-		prevPoint = {x, y}
-	} else {
-		drawCircle = true;
-	}
+	var x = randomCircle ? Math.floor(Math.random() * (501)) : event.clientX - domRect.left;
+	var y = randomCircle ? Math.floor(Math.random() * (501)) : event.clientY - domRect.top;
+	if (randomCircle) randomCircle = false;
+	svgContainer.appendChild(getCircleCode(x, y));
+	prevPoint = {x, y}
 });
 
 var getCircleCode = (x, y) => {
@@ -22,12 +17,12 @@ var getCircleCode = (x, y) => {
 	circle.addEventListener('click', (e) => {
 		if (circle.getAttribute('fill') === 'red') {
 			circle.setAttribute('fill', 'blue');
-			drawCircle = false;
+			e.stopPropagation();
 		} else {
 			circle.parentNode.removeChild(circle);
 			randomCircle = true;
 		}
-	})
+	});
 	circle.setAttribute('cx', x);	
 	circle.setAttribute('cy', y);
 	circle.setAttribute('r', '20');
