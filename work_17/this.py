@@ -9,3 +9,13 @@ def t(m):
 
 print(f(24))
 print(t([[1,2,3],[4,5,6],[7,8,9]]))
+
+def quicksort(list):
+    # base case
+    if list == []:
+        return []
+    else:
+        pivot = list[0] #pivoting on the first item
+        lesser = quicksort([x for x in list[1:] if x < pivot])
+        greater = quicksort([x for x in list[1:] if x >= pivot])
+        return lesser + [pivot] + greater
