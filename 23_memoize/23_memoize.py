@@ -1,15 +1,18 @@
-def memoization(starting, f):
-    previous = starting
-    def inner(n):
-        nonlocal previous
-        while (len(previous) < n):
-            previous.append(f(previous))
-        return previous[-1]
-    return innerz
+def memoization(f):
+    mem = {}
+    def memoized(*args):
+        if (args) in mem:
+            return mem[args]
+        return f(args)
+    return memoized
 
-def fib(arr):
-    return arr[-1] + arr[-2]
+@memoization
+def fibonacci(args):
+    n = args[0]
+    if (n == 0):
+        return 0
+    if (n == 1):
+        return 1
+    return fibonacci(n-2) + fibonacci(n-1)
 
-fibo = memoization([0, 1], fib)
-print(fibo(10))
-    
+print(fibonacci(10)) # expecting 55
